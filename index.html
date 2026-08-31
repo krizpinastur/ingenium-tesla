@@ -15,6 +15,10 @@
 
     <style>
 
+        /* =========================================================
+           CONFIGURACIÓN GENERAL
+        ========================================================= */
+
         * {
             box-sizing: border-box;
         }
@@ -27,6 +31,8 @@
 
             width: 100%;
             height: 100%;
+            height: 100vh;
+            height: 100dvh;
 
             background: #181818;
 
@@ -36,6 +42,8 @@
                 Arial,
                 Helvetica,
                 sans-serif;
+
+            overflow: hidden;
         }
 
 
@@ -43,28 +51,37 @@
 
             display: flex;
 
-            align-items: center;
+            align-items: stretch;
 
-            justify-content: center;
-
-            overflow: hidden;
+            justify-content: stretch;
         }
 
+
+        /* =========================================================
+           PANEL PRINCIPAL
+        ========================================================= */
 
         .panel {
 
             width: 100%;
             height: 100%;
 
-            padding: 28px;
+            min-width: 0;
+            min-height: 0;
+
+            padding: 12px;
 
             display: flex;
 
             flex-direction: column;
 
-            gap: 18px;
+            gap: 10px;
         }
 
+
+        /* =========================================================
+           CABECERA COMPACTA
+        ========================================================= */
 
         .cabecera {
 
@@ -72,104 +89,164 @@
 
             align-items: center;
 
-            justify-content: space-between;
-        }
+            justify-content: flex-end;
 
-
-        .titulo {
-
-            font-size: 34px;
-
-            font-weight: bold;
+            min-height: 24px;
         }
 
 
         #estado {
 
-            font-size: 20px;
+            font-size: 16px;
+
+            font-weight: bold;
 
             color: #bdbdbd;
 
             text-align: right;
+
+            white-space: nowrap;
         }
 
+
+        /* =========================================================
+           INFORMACIÓN GPS
+        ========================================================= */
 
         #gps {
 
-            padding: 14px 20px;
+            flex-shrink: 0;
 
-            border-radius: 16px;
+            padding: 7px 12px;
+
+            border-radius: 12px;
 
             background: #303030;
 
-            font-size: 18px;
+            font-size: 14px;
 
             color: #d0d0d0;
+
+            text-align: center;
+
+            white-space: nowrap;
+
+            overflow: hidden;
+
+            text-overflow: ellipsis;
         }
 
+
+        /* =========================================================
+           ZONA DE BOTONES
+        ========================================================= */
 
         .botones {
 
             flex: 1;
 
+            min-width: 0;
+            min-height: 0;
+
             display: grid;
 
             grid-template-columns:
-                1fr 1fr;
+                minmax(0, 1fr)
+                minmax(0, 1fr);
 
             grid-template-rows:
-                1fr 1fr;
+                minmax(0, 1fr)
+                minmax(0, 1fr);
 
-            gap: 22px;
+            gap: 10px;
         }
 
 
+        /* =========================================================
+           BOTÓN BASE
+        ========================================================= */
+
         .boton {
+
+            width: 100%;
+            height: 100%;
+
+            min-width: 0;
+            min-height: 0;
+
+            padding: 6px 10px;
 
             border: none;
 
-            border-radius: 30px;
+            border-radius: 22px;
 
             color: white;
 
-            font-size: 32px;
+            font-size: clamp(
+                18px,
+                2.5vw,
+                30px
+            );
 
             font-weight: bold;
 
             cursor: pointer;
 
-
             box-shadow:
 
-                0 14px 24px
+                0 8px 14px
                 rgba(0, 0, 0, 0.45),
 
-                inset 0 3px 2px
-                rgba(255, 255, 255, 0.22);
+                inset 0 2px 2px
+                rgba(255, 255, 255, 0.20);
 
 
             transition:
+
                 transform 0.08s ease,
+
                 box-shadow 0.08s ease,
+
                 filter 0.08s ease,
-                opacity 0.2s;
+
+                opacity 0.20s ease;
+
+
+            user-select: none;
+
+            -webkit-user-select: none;
+
+            touch-action: manipulation;
         }
 
+
+        /* =========================================================
+           EFECTO AL PULSAR
+        ========================================================= */
 
         .boton:active:not(:disabled) {
 
             transform:
-                translateY(7px);
+                translateY(5px);
+
 
             box-shadow:
 
-                0 5px 10px
-                rgba(0, 0, 0, 0.4),
+                0 3px 7px
+                rgba(0, 0, 0, 0.45),
 
                 inset 0 2px 2px
                 rgba(255, 255, 255, 0.15);
+
+
+            filter:
+                brightness(0.90);
         }
 
+
+        /* =========================================================
+           BOTÓN BLOQUEADO
+        ========================================================= */
 
         .boton:disabled {
 
@@ -177,9 +254,14 @@
 
             cursor: not-allowed;
 
-            filter: grayscale(70%);
+            filter:
+                grayscale(70%);
         }
 
+
+        /* =========================================================
+           COLORES
+        ========================================================= */
 
         .alarma {
 
@@ -225,6 +307,10 @@
         }
 
 
+        /* =========================================================
+           PANTALLA DE EMPAREJAMIENTO
+        ========================================================= */
+
         #emparejamiento {
 
             position: fixed;
@@ -240,6 +326,8 @@
             justify-content: center;
 
             z-index: 1000;
+
+            padding: 20px;
         }
 
 
@@ -247,21 +335,35 @@
 
             width: 90%;
 
-            max-width: 650px;
+            max-width: 600px;
 
             background: #303030;
 
-            padding: 35px;
+            padding: 30px;
 
             border-radius: 28px;
 
             text-align: center;
+
+            box-shadow:
+                0 15px 35px
+                rgba(0, 0, 0, 0.50);
         }
 
 
         .pairCard h2 {
 
-            font-size: 32px;
+            margin-top: 0;
+
+            font-size: 30px;
+        }
+
+
+        .pairCard p {
+
+            font-size: 18px;
+
+            color: #d0d0d0;
         }
 
 
@@ -269,17 +371,19 @@
 
             width: 100%;
 
-            height: 75px;
+            height: 65px;
 
-            margin-top: 20px;
+            margin-top: 15px;
 
             text-align: center;
 
-            font-size: 30px;
+            font-size: 28px;
 
             border-radius: 18px;
 
             border: none;
+
+            outline: none;
         }
 
 
@@ -287,31 +391,38 @@
 
             width: 100%;
 
-            height: 80px;
+            height: 70px;
 
-            margin-top: 20px;
+            margin-top: 18px;
 
             border: none;
 
             border-radius: 20px;
 
-            background: #1565c0;
+            background:
+                linear-gradient(
+                    to bottom,
+                    #42a5f5,
+                    #0d47a1
+                );
 
             color: white;
 
-            font-size: 26px;
+            font-size: 24px;
 
             font-weight: bold;
+
+            cursor: pointer;
         }
 
 
         #pairEstado {
 
-            margin-top: 20px;
+            margin-top: 18px;
 
             color: #bdbdbd;
 
-            font-size: 20px;
+            font-size: 18px;
         }
 
 
@@ -321,6 +432,125 @@
         }
 
 
+        /* =========================================================
+           VENTANA MUY BAJA / REDUCIDA DEL TESLA
+        ========================================================= */
+
+        @media (max-height: 500px) {
+
+            .panel {
+
+                padding: 8px;
+
+                gap: 6px;
+            }
+
+
+            .cabecera {
+
+                min-height: 18px;
+            }
+
+
+            #estado {
+
+                font-size: 13px;
+            }
+
+
+            #gps {
+
+                padding: 4px 8px;
+
+                font-size: 12px;
+
+                border-radius: 9px;
+            }
+
+
+            .botones {
+
+                gap: 7px;
+            }
+
+
+            .boton {
+
+                border-radius: 16px;
+
+                font-size:
+                    clamp(
+                        15px,
+                        2vw,
+                        23px
+                    );
+
+                box-shadow:
+
+                    0 5px 9px
+                    rgba(0, 0, 0, 0.40),
+
+                    inset 0 1px 2px
+                    rgba(255, 255, 255, 0.18);
+            }
+        }
+
+
+        /* =========================================================
+           PANTALLA GRANDE
+        ========================================================= */
+
+        @media (min-width: 1100px) and (min-height: 600px) {
+
+            .panel {
+
+                padding: 20px;
+
+                gap: 14px;
+            }
+
+
+            #estado {
+
+                font-size: 20px;
+            }
+
+
+            #gps {
+
+                padding: 10px 16px;
+
+                font-size: 17px;
+            }
+
+
+            .botones {
+
+                gap: 18px;
+            }
+
+
+            .boton {
+
+                border-radius: 28px;
+
+                font-size:
+                    clamp(
+                        24px,
+                        2.4vw,
+                        36px
+                    );
+
+                box-shadow:
+
+                    0 14px 24px
+                    rgba(0, 0, 0, 0.45),
+
+                    inset 0 3px 2px
+                    rgba(255, 255, 255, 0.22);
+            }
+        }
+
     </style>
 
 </head>
@@ -329,35 +559,32 @@
 <body>
 
 
+<!-- =============================================================
+     PANEL PRINCIPAL
+============================================================= -->
+
 <div class="panel">
 
 
+    <!-- ESTADO -->
+
     <div class="cabecera">
 
-
-        <div class="titulo">
-
-            Ingenium Control
-
-        </div>
-
-
         <div id="estado">
-
             Iniciando...
-
         </div>
-
 
     </div>
 
+
+    <!-- GPS -->
 
     <div id="gps">
-
         Esperando GPS...
-
     </div>
 
+
+    <!-- BOTONES -->
 
     <div class="botones">
 
@@ -373,9 +600,7 @@
             "
         >
 
-            Conectar
-            <br>
-            Alarma
+            CONECTAR ALARMA
 
         </button>
 
@@ -391,9 +616,7 @@
             "
         >
 
-            Portón
-            <br>
-            finca
+            PORTÓN FINCA
 
         </button>
 
@@ -409,9 +632,7 @@
             "
         >
 
-            Portón
-            <br>
-            garaje
+            PORTÓN GARAJE
 
         </button>
 
@@ -427,21 +648,20 @@
             "
         >
 
-            Portones
+            PORTONES
 
         </button>
 
 
     </div>
 
-
 </div>
 
 
-<!-- =========================================================
-     EMPAREJAMIENTO
-========================================================= -->
 
+<!-- =============================================================
+     EMPAREJAMIENTO DEL TESLA
+============================================================= -->
 
 <div id="emparejamiento">
 
@@ -484,9 +704,13 @@
 
     </div>
 
-
 </div>
 
+
+
+<!-- =============================================================
+     SONIDO
+============================================================= -->
 
 <audio
     id="sonidoBoton"
@@ -495,13 +719,13 @@
 </audio>
 
 
+
 <script>
 
 
     // =============================================================
-    // WORKER
+    // WORKER DE CLOUDFLARE
     // =============================================================
-
 
     const worker =
 
@@ -510,9 +734,8 @@
 
 
     // =============================================================
-    // CONFIGURACIÓN LOCAL
+    // ZONA AUTORIZADA
     // =============================================================
-
 
     const HOME_LAT =
         43.5581498;
@@ -522,9 +745,13 @@
         -5.9476139;
 
 
+    // Radio permitido alrededor de casa
+
     const RADIO =
         300;
 
+
+    // Precisión GPS máxima permitida
 
     const PRECISION_MAX =
         100;
@@ -532,9 +759,8 @@
 
 
     // =============================================================
-    // VARIABLES
+    // VARIABLES DE ESTADO
     // =============================================================
-
 
     let posicionActual =
         null;
@@ -544,23 +770,30 @@
         false;
 
 
+    let gpsIniciado =
+        false;
+
+
 
     // =============================================================
-    // INICIO
+    // CUANDO CARGA LA WEB
     // =============================================================
-
 
     window.addEventListener(
+
         "load",
 
         function() {
 
 
             const token =
+
                 localStorage.getItem(
                     "ingeniumTeslaToken"
                 );
 
+
+            // Si el Tesla todavía no está emparejado
 
             if (!token) {
 
@@ -576,14 +809,14 @@
             }
 
         }
+
     );
 
 
 
     // =============================================================
-    // EMPAREJAMIENTO
+    // MOSTRAR EMPAREJAMIENTO
     // =============================================================
-
 
     function mostrarEmparejamiento() {
 
@@ -599,6 +832,10 @@
 
 
 
+    // =============================================================
+    // EMPAREJAR TESLA
+    // =============================================================
+
     async function emparejar() {
 
 
@@ -608,7 +845,8 @@
                 .getElementById(
                     "codigoPair"
                 )
-                .value;
+                .value
+                .trim();
 
 
         const estado =
@@ -619,7 +857,21 @@
                 );
 
 
+        if (!codigo) {
+
+
+            estado.innerText =
+
+                "Introduce el código";
+
+
+            return;
+
+        }
+
+
         estado.innerText =
+
             "Emparejando...";
 
 
@@ -630,7 +882,8 @@
 
                 await fetch(
 
-                    worker + "/pair",
+                    worker +
+                    "/pair",
 
                     {
 
@@ -647,11 +900,16 @@
 
 
                         body:
+
                             JSON.stringify(
+
                                 {
+
                                     code:
                                         codigo
+
                                 }
+
                             )
 
                     }
@@ -660,6 +918,7 @@
 
 
             const datos =
+
                 await respuesta.json();
 
 
@@ -669,6 +928,7 @@
                 estado.innerText =
 
                     datos.error ||
+
                     "Error de emparejamiento";
 
 
@@ -676,6 +936,9 @@
 
             }
 
+
+            // Guardamos el token
+            // exclusivamente en el navegador Tesla
 
             localStorage.setItem(
 
@@ -709,7 +972,7 @@
 
                 },
 
-                1000
+                800
 
             );
 
@@ -721,6 +984,11 @@
 
                 "Error de conexión";
 
+
+            console.error(
+                error
+            );
+
         }
 
     }
@@ -728,11 +996,21 @@
 
 
     // =============================================================
-    // GPS
+    // INICIAR GPS
     // =============================================================
 
-
     function iniciarGPS() {
+
+
+        if (gpsIniciado) {
+
+            return;
+
+        }
+
+
+        gpsIniciado =
+            true;
 
 
         const estado =
@@ -791,6 +1069,10 @@
 
 
 
+    // =============================================================
+    // NUEVA POSICIÓN GPS
+    // =============================================================
+
     function actualizarPosicion(
         posicion
     ) {
@@ -838,20 +1120,26 @@
         };
 
 
+        // ---------------------------------------------------------
+        // MOSTRAR INFORMACIÓN
+        // ---------------------------------------------------------
+
         document
             .getElementById(
                 "gps"
             )
             .innerText =
 
-                "Distancia: " +
+                "Distancia " +
                 Math.round(distancia) +
-                " m   |   " +
-
-                "Precisión: " +
+                " m   •   GPS ±" +
                 Math.round(accuracy) +
                 " m";
 
+
+        // ---------------------------------------------------------
+        // COMPROBAR CONDICIONES
+        // ---------------------------------------------------------
 
         zonaValida =
 
@@ -874,19 +1162,36 @@
                 )
                 .innerText =
 
-                    "● Acceso autorizado";
+                    "● AUTORIZADO";
 
 
         } else {
 
 
-            document
-                .getElementById(
-                    "estado"
-                )
-                .innerText =
+            if (accuracy > PRECISION_MAX) {
 
-                    "🔒 Fuera de zona";
+
+                document
+                    .getElementById(
+                        "estado"
+                    )
+                    .innerText =
+
+                        "GPS sin precisión";
+
+
+            } else {
+
+
+                document
+                    .getElementById(
+                        "estado"
+                    )
+                    .innerText =
+
+                        "🔒 FUERA DE ZONA";
+
+            }
 
         }
 
@@ -894,7 +1199,13 @@
 
 
 
-    function errorGPS(error) {
+    // =============================================================
+    // ERROR GPS
+    // =============================================================
+
+    function errorGPS(
+        error
+    ) {
 
 
         zonaValida =
@@ -912,14 +1223,18 @@
 
                 "GPS no disponible";
 
+
+        console.log(
+            error
+        );
+
     }
 
 
 
     // =============================================================
-    // BOTONES
+    // ACTIVAR / BLOQUEAR BOTONES
     // =============================================================
-
 
     function actualizarBotones() {
 
@@ -934,7 +1249,7 @@
 
         botones.forEach(
 
-            boton => {
+            function(boton) {
 
 
                 boton.disabled =
@@ -950,15 +1265,16 @@
 
 
     // =============================================================
-    // ENVIAR ORDEN
+    // EJECUTAR ESCENA
     // =============================================================
-
 
     async function enviarOrden(
         accion,
         nombre
     ) {
 
+
+        // Sin GPS válido no hacemos nada
 
         if (
             !zonaValida ||
@@ -971,6 +1287,8 @@
         }
 
 
+        // Sonido inmediato
+
         reproducirSonido();
 
 
@@ -979,6 +1297,19 @@
             localStorage.getItem(
                 "ingeniumTeslaToken"
             );
+
+
+        // Sin token tampoco ejecutamos
+
+        if (!token) {
+
+
+            mostrarEmparejamiento();
+
+
+            return;
+
+        }
 
 
         const estado =
@@ -991,9 +1322,7 @@
 
         estado.innerText =
 
-            "Enviando " +
-            nombre +
-            "...";
+            "Enviando...";
 
 
         try {
@@ -1003,7 +1332,8 @@
 
                 await fetch(
 
-                    worker + accion,
+                    worker +
+                    accion,
 
                     {
 
@@ -1018,6 +1348,7 @@
 
 
                             "Authorization":
+
                                 "Bearer " +
                                 token
 
@@ -1025,6 +1356,7 @@
 
 
                         body:
+
                             JSON.stringify(
 
                                 {
@@ -1032,8 +1364,10 @@
                                     lat:
                                         posicionActual.lat,
 
+
                                     lon:
                                         posicionActual.lon,
+
 
                                     accuracy:
                                         posicionActual.accuracy
@@ -1064,9 +1398,41 @@
             } else {
 
 
+                // Token no válido / revocado
+
+                if (
+                    respuesta.status === 401
+                ) {
+
+
+                    localStorage.removeItem(
+                        "ingeniumTeslaToken"
+                    );
+
+
+                    estado.innerText =
+
+                        "Tesla no autorizado";
+
+
+                    setTimeout(
+
+                        mostrarEmparejamiento,
+
+                        700
+
+                    );
+
+
+                    return;
+
+                }
+
+
                 estado.innerText =
 
                     datos.error ||
+
                     "Acceso bloqueado";
 
             }
@@ -1079,8 +1445,17 @@
 
                 "Error de conexión";
 
+
+            console.error(
+                error
+            );
+
         }
 
+
+        // ---------------------------------------------------------
+        // RECUPERAR ESTADO
+        // ---------------------------------------------------------
 
         setTimeout(
 
@@ -1092,7 +1467,7 @@
 
                     estado.innerText =
 
-                        "● Acceso autorizado";
+                        "● AUTORIZADO";
 
 
                 } else {
@@ -1100,7 +1475,7 @@
 
                     estado.innerText =
 
-                        "🔒 Fuera de zona";
+                        "🔒 FUERA DE ZONA";
 
                 }
 
@@ -1118,7 +1493,6 @@
     // SONIDO
     // =============================================================
 
-
     function reproducirSonido() {
 
 
@@ -1130,39 +1504,66 @@
                 );
 
 
-        audio.pause();
+        try {
 
 
-        audio.currentTime =
-            0;
+            audio.pause();
 
 
-        audio.play()
-            .catch(
+            audio.currentTime =
+                0;
 
-                function(error) {
 
-                    console.log(
-                        error
-                    );
+            const reproduccion =
 
-                }
+                audio.play();
 
+
+            if (
+                reproduccion !== undefined
+            ) {
+
+
+                reproduccion.catch(
+
+                    function(error) {
+
+
+                        console.log(
+                            "Audio bloqueado:",
+                            error
+                        );
+
+                    }
+
+                );
+
+            }
+
+
+        } catch (error) {
+
+
+            console.log(
+                error
             );
+
+        }
 
     }
 
 
 
     // =============================================================
-    // DISTANCIA
+    // CALCULAR DISTANCIA
+    // Fórmula de Haversine
     // =============================================================
-
 
     function calcularDistancia(
 
         lat1,
         lon1,
+
         lat2,
         lon2
 
