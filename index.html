@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
+    >
+
+    <title>Ingenium Tesla</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            width: 100%;
+            height: 100%;
+            background: #181818;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .panel {
+            width: 100%;
+            height: 100%;
+            padding: 28px;
+
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .cabecera {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .titulo {
+            font-size: 34px;
+            font-weight: bold;
+        }
+
+        #estado {
+            font-size: 20px;
+            color: #bdbdbd;
+        }
+
+        .botones {
+            flex: 1;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 22px;
+        }
+
+        .boton {
+            border: none;
+            border-radius: 30px;
+
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+
+            cursor: pointer;
+
+            box-shadow:
+                0 14px 24px rgba(0, 0, 0, 0.45),
+                inset 0 3px 2px rgba(255, 255, 255, 0.22);
+
+            transition:
+                transform 0.08s ease,
+                box-shadow 0.08s ease,
+                filter 0.08s ease;
+
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .boton:active {
+            transform: translateY(7px);
+
+            box-shadow:
+                0 5px 10px rgba(0, 0, 0, 0.4),
+                inset 0 2px 2px rgba(255, 255, 255, 0.15);
+
+            filter: brightness(0.9);
+        }
+
+        .alarma {
+            background:
+                linear-gradient(
+                    to bottom,
+                    #42a5f5,
+                    #0d47a1
+                );
+        }
+
+        .finca {
+            background:
+                linear-gradient(
+                    to bottom,
+                    #66bb6a,
+                    #1b5e20
+                );
+        }
+
+        .portones {
+            background:
+                linear-gradient(
+                    to bottom,
+                    #ef5350,
+                    #8e0000
+                );
+        }
+
+        iframe {
+            display: none;
+        }
+
+        @media (max-width: 900px) {
+
+            .botones {
+                grid-template-columns: 1fr;
+            }
+
+            .boton {
+                min-height: 130px;
+            }
+
+            body {
+                overflow: auto;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+<div class="panel">
+
+    <div class="cabecera">
+
+        <div class="titulo">
+            Ingenium Control
+        </div>
+
+        <div id="estado">
+            Listo
+        </div>
+
+    </div>
+
+
+    <div class="botones">
+
+
+        <button
+            class="boton alarma"
+            onclick="enviarOrden('253,100,17', 'Alarma')"
+        >
+            Conectar
+            <br>
+            Alarma
+        </button>
+
+
+        <button
+            class="boton finca"
+            onclick="enviarOrden('253,100,5', 'Portón finca')"
+        >
+            Portón
+            <br>
+            finca
+        </button>
+
+
+        <button
+            class="boton portones"
+            onclick="enviarOrden('253,100,6', 'Portones')"
+        >
+            Portones
+        </button>
+
+
+    </div>
+
+
+    <iframe
+        name="respuestaIngenium"
+        id="respuestaIngenium"
+    ></iframe>
+
+</div>
+
+
+<script>
+
+    const servidor =
+        "https://s2.ingeniumsl.com:8877";
+
+    const usuario =
+        "nubledo1";
+
+    const idEthbus =
+        "PPXF3P2";
+
+
+    function enviarOrden(
+        orden,
+        nombre
+    ) {
+
+        const estado =
+            document.getElementById("estado");
+
+
+        estado.innerText =
+            "Enviando " + nombre + "...";
+
+
+        const url =
+            servidor +
+            "/api/send" +
+            "?u=" +
+            encodeURIComponent(usuario) +
+            "&i=" +
+            encodeURIComponent(idEthbus) +
+            "&p=" +
+            encodeURIComponent(orden);
+
+
+        const formulario =
+            document.createElement("form");
+
+
+        formulario.method =
+            "POST";
+
+
+        formulario.action =
+            url;
+
+
+        formulario.target =
+            "respuestaIngenium";
+
+
+        formulario.style.display =
+            "none";
+
+
+        document.body.appendChild(
+            formulario
+        );
+
+
+        formulario.submit();
+
+
+        document.body.removeChild(
+            formulario
+        );
+
+
+        estado.innerText =
+            nombre + " enviado";
+
+
+        setTimeout(
+            function () {
+
+                estado.innerText =
+                    "Listo";
+
+            },
+
+            2500
+        );
+    }
+
+</script>
+
+
+</body>
+
+</html>
