@@ -1036,47 +1036,30 @@
     // =============================================================
     // NUEVA POSICIÓN
     // =============================================================
+function nuevaPosicion(
+    posicion
+) {
 
-    function nuevaPosicion(
-        posicion
-    ) {
+    posicionActual = {
 
+        lat:
+            posicion.coords.latitude,
 
-        posicionActual = {
+        lon:
+            posicion.coords.longitude,
 
+        accuracy:
+            posicion.coords.accuracy
 
-            lat:
-                posicion.coords.latitude,
-
-
-            lon:
-                posicion.coords.longitude,
-
-
-            accuracy:
-                posicion.coords.accuracy
-
-        };
+    };
 
 
-        document
-            .getElementById(
-                "gps"
-            )
-            .innerText =
+    // No modificamos aquí el texto del GPS.
+    // Esperamos a que Cloudflare compruebe
+    // distancia, radio y precisión.
 
-                "GPS ±" +
-
-                Math.round(
-                    posicionActual.accuracy
-                ) +
-
-                " m";
-
-
-        comprobarAutorizacion();
-
-    }
+    comprobarAutorizacion();
+}
 
 
 
