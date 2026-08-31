@@ -2,24 +2,19 @@
 <html lang="es">
 
 <head>
-
     <meta charset="UTF-8">
-
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0"
     >
-
-    <title>Ingenium Tesla</title>
+    <title>Prueba GPS Tesla</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
 
-        html,
-        body {
+        html, body {
             margin: 0;
             width: 100%;
             height: 100%;
@@ -32,328 +27,141 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            overflow: hidden;
+            padding: 20px;
         }
 
         .panel {
             width: 100%;
-            height: 100%;
-            padding: 28px;
-
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+            max-width: 900px;
+            background: #2b2b2b;
+            border-radius: 28px;
+            padding: 35px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.45);
         }
 
-        .cabecera {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        h1 {
+            margin-top: 0;
+            font-size: 36px;
         }
 
-        .titulo {
-            font-size: 34px;
-            font-weight: bold;
+        .dato {
+            margin-top: 22px;
+            padding: 18px;
+            background: #383838;
+            border-radius: 18px;
+            font-size: 24px;
         }
 
         #estado {
-            font-size: 20px;
+            margin-top: 25px;
+            font-size: 22px;
             color: #bdbdbd;
         }
 
-        .botones {
-            flex: 1;
-
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            grid-template-rows: 1fr 1fr;
-
-            gap: 22px;
-        }
-
-        .boton {
+        button {
+            width: 100%;
+            height: 90px;
+            margin-top: 30px;
             border: none;
-            border-radius: 30px;
-
+            border-radius: 24px;
+            background: linear-gradient(to bottom, #42a5f5, #0d47a1);
             color: white;
-
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
-
             cursor: pointer;
-
-            box-shadow:
-                0 14px 24px rgba(0, 0, 0, 0.45),
-                inset 0 3px 2px rgba(255, 255, 255, 0.22);
-
-            transition:
-                transform 0.08s ease,
-                box-shadow 0.08s ease,
-                filter 0.08s ease;
-
-            user-select: none;
-            -webkit-user-select: none;
+            box-shadow: 0 12px 22px rgba(0, 0, 0, 0.4);
         }
 
-        .boton:active {
-
-            transform: translateY(7px);
-
-            box-shadow:
-                0 5px 10px rgba(0, 0, 0, 0.4),
-                inset 0 2px 2px rgba(255, 255, 255, 0.15);
-
-            filter: brightness(0.9);
+        button:active {
+            transform: translateY(5px);
         }
-
-        .alarma {
-            background:
-                linear-gradient(
-                    to bottom,
-                    #42a5f5,
-                    #0d47a1
-                );
-        }
-
-        .finca {
-            background:
-                linear-gradient(
-                    to bottom,
-                    #66bb6a,
-                    #1b5e20
-                );
-        }
-
-        .garaje {
-            background:
-                linear-gradient(
-                    to bottom,
-                    #ffb74d,
-                    #e65100
-                );
-        }
-
-        .portones {
-            background:
-                linear-gradient(
-                    to bottom,
-                    #ef5350,
-                    #8e0000
-                );
-        }
-
-        audio {
-            display: none;
-        }
-
-        @media (max-width: 900px) {
-
-            body {
-                overflow: auto;
-            }
-
-            .botones {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto;
-            }
-
-            .boton {
-                min-height: 130px;
-            }
-        }
-
     </style>
-
 </head>
-
 
 <body>
 
 <div class="panel">
 
-    <div class="cabecera">
+    <h1>Prueba GPS Tesla</h1>
 
-        <div class="titulo">
-            Ingenium Control
-        </div>
-
-        <div id="estado">
-            Listo
-        </div>
-
+    <div class="dato">
+        Latitud:
+        <span id="latitud">---</span>
     </div>
 
-
-    <div class="botones">
-
-
-        <button
-            class="boton alarma"
-            onclick="enviarOrden('/alarma', 'Alarma')"
-        >
-            Conectar
-            <br>
-            Alarma
-        </button>
-
-
-        <button
-            class="boton finca"
-            onclick="enviarOrden('/porton-finca', 'Portón finca')"
-        >
-            Portón
-            <br>
-            finca
-        </button>
-
-
-        <button
-            class="boton garaje"
-            onclick="enviarOrden('/porton-garaje', 'Portón garaje')"
-        >
-            Portón
-            <br>
-            garaje
-        </button>
-
-
-        <button
-            class="boton portones"
-            onclick="enviarOrden('/portones', 'Portones')"
-        >
-            Portones
-        </button>
-
-
+    <div class="dato">
+        Longitud:
+        <span id="longitud">---</span>
     </div>
 
+    <div class="dato">
+        Precisión:
+        <span id="precision">---</span> metros
+    </div>
 
-    <audio
-        id="sonidoBoton"
-        src="button_click.mp3"
-        preload="auto">
-    </audio>
+    <div id="estado">
+        Esperando ubicación...
+    </div>
+
+    <button onclick="obtenerUbicacion()">
+        Obtener ubicación
+    </button>
 
 </div>
 
-
 <script>
+    function obtenerUbicacion() {
 
-    const worker =
-        "https://ingenium-control.pablo-dosuarez.workers.dev";
+        const estado = document.getElementById("estado");
 
-
-    // =============================================================
-    // SONIDO DE LOS BOTONES
-    // =============================================================
-
-    function reproducirSonido() {
-
-        const audio =
-            document.getElementById("sonidoBoton");
-
-        try {
-
-            audio.pause();
-
-            audio.currentTime =
-                0;
-
-            const reproduccion =
-                audio.play();
-
-
-            if (reproduccion !== undefined) {
-
-                reproduccion.catch(
-                    function(error) {
-
-                        console.log(
-                            "El navegador no permitió reproducir el sonido:",
-                            error
-                        );
-                    }
-                );
-            }
-
-        } catch (error) {
-
-            console.log(
-                "Error reproduciendo sonido:",
-                error
-            );
-        }
-    }
-
-
-    // =============================================================
-    // ENVIAR ORDEN
-    // =============================================================
-
-    async function enviarOrden(
-        accion,
-        nombre
-    ) {
-
-        // Sonido inmediatamente al tocar el botón
-        reproducirSonido();
-
-
-        const estado =
-            document.getElementById("estado");
-
-
-        estado.innerText =
-            "Enviando " + nombre + "...";
-
-
-        try {
-
-            const respuesta =
-                await fetch(
-                    worker + accion,
-                    {
-                        method: "POST"
-                    }
-                );
-
-
-            if (respuesta.ok) {
-
-                estado.innerText =
-                    nombre + " enviado";
-
-            } else {
-
-                estado.innerText =
-                    "Error " + respuesta.status;
-            }
-
-
-        } catch (error) {
-
-            estado.innerText =
-                "Error de conexión";
-
-            console.error(error);
+        if (!navigator.geolocation) {
+            estado.innerText = "Este navegador no soporta geolocalización.";
+            return;
         }
 
+        estado.innerText = "Solicitando ubicación...";
 
-        setTimeout(
-            function () {
+        navigator.geolocation.getCurrentPosition(
 
-                estado.innerText =
-                    "Listo";
+            function(posicion) {
+                const lat = posicion.coords.latitude;
+                const lon = posicion.coords.longitude;
+                const precision = posicion.coords.accuracy;
 
+                document.getElementById("latitud").innerText = lat.toFixed(7);
+                document.getElementById("longitud").innerText = lon.toFixed(7);
+                document.getElementById("precision").innerText = Math.round(precision);
+
+                estado.innerText = "Ubicación obtenida correctamente.";
             },
 
-            2500
+            function(error) {
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        estado.innerText = "Permiso de ubicación denegado.";
+                        break;
+
+                    case error.POSITION_UNAVAILABLE:
+                        estado.innerText = "Ubicación no disponible.";
+                        break;
+
+                    case error.TIMEOUT:
+                        estado.innerText = "Tiempo agotado obteniendo ubicación.";
+                        break;
+
+                    default:
+                        estado.innerText = "Error desconocido obteniendo ubicación.";
+                }
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 15000,
+                maximumAge: 0
+            }
         );
     }
-
 </script>
 
-
 </body>
-
 </html>
