@@ -124,6 +124,15 @@
                 );
         }
 
+        .garaje {
+            background:
+                linear-gradient(
+                    to bottom,
+                    #ffb74d,
+                    #e65100
+                );
+        }
+
         .portones {
             background:
                 linear-gradient(
@@ -133,13 +142,8 @@
                 );
         }
 
-        .garaje {
-            background:
-                linear-gradient(
-                    to bottom,
-                    #ffb74d,
-                    #e65100
-                );
+        audio {
+            display: none;
         }
 
         @media (max-width: 900px) {
@@ -187,9 +191,9 @@
             class="boton alarma"
             onclick="enviarOrden('/alarma', 'Alarma')"
         >
-            CONECTAR
+            Conectar
             <br>
-            ALARMA
+            Alarma
         </button>
 
 
@@ -197,17 +201,9 @@
             class="boton finca"
             onclick="enviarOrden('/porton-finca', 'Portón finca')"
         >
-            PORTON
+            Portón
             <br>
-            FINCA
-        </button>
-
-
-        <button
-            class="boton portones"
-            onclick="enviarOrden('/portones', 'Portones')"
-        >
-            PORTONES
+            finca
         </button>
 
 
@@ -215,13 +211,28 @@
             class="boton garaje"
             onclick="enviarOrden('/porton-garaje', 'Portón garaje')"
         >
-            PORTON
+            Portón
             <br>
-            GARAJE
+            garaje
+        </button>
+
+
+        <button
+            class="boton portones"
+            onclick="enviarOrden('/portones', 'Portones')"
+        >
+            Portones
         </button>
 
 
     </div>
+
+
+    <audio
+        id="sonidoBoton"
+        src="button_click.mp3"
+        preload="auto">
+    </audio>
 
 </div>
 
@@ -232,10 +243,61 @@
         "https://ingenium-control.pablo-dosuarez.workers.dev";
 
 
+    // =============================================================
+    // SONIDO DE LOS BOTONES
+    // =============================================================
+
+    function reproducirSonido() {
+
+        const audio =
+            document.getElementById("sonidoBoton");
+
+        try {
+
+            audio.pause();
+
+            audio.currentTime =
+                0;
+
+            const reproduccion =
+                audio.play();
+
+
+            if (reproduccion !== undefined) {
+
+                reproduccion.catch(
+                    function(error) {
+
+                        console.log(
+                            "El navegador no permitió reproducir el sonido:",
+                            error
+                        );
+                    }
+                );
+            }
+
+        } catch (error) {
+
+            console.log(
+                "Error reproduciendo sonido:",
+                error
+            );
+        }
+    }
+
+
+    // =============================================================
+    // ENVIAR ORDEN
+    // =============================================================
+
     async function enviarOrden(
         accion,
         nombre
     ) {
+
+        // Sonido inmediatamente al tocar el botón
+        reproducirSonido();
+
 
         const estado =
             document.getElementById("estado");
