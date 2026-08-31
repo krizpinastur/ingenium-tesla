@@ -15,10 +15,6 @@
 
     <style>
 
-        /* =========================================================
-           CONFIGURACIÓN GENERAL
-        ========================================================= */
-
         * {
             box-sizing: border-box;
         }
@@ -57,9 +53,9 @@
         }
 
 
-        /* =========================================================
-           PANEL PRINCIPAL
-        ========================================================= */
+        /* =====================================================
+           PANEL
+        ===================================================== */
 
         .panel {
 
@@ -79,9 +75,9 @@
         }
 
 
-        /* =========================================================
-           CABECERA COMPACTA
-        ========================================================= */
+        /* =====================================================
+           ESTADO
+        ===================================================== */
 
         .cabecera {
 
@@ -109,9 +105,9 @@
         }
 
 
-        /* =========================================================
-           INFORMACIÓN GPS
-        ========================================================= */
+        /* =====================================================
+           GPS
+        ===================================================== */
 
         #gps {
 
@@ -137,9 +133,9 @@
         }
 
 
-        /* =========================================================
-           ZONA DE BOTONES
-        ========================================================= */
+        /* =====================================================
+           CUADRÍCULA
+        ===================================================== */
 
         .botones {
 
@@ -162,9 +158,9 @@
         }
 
 
-        /* =========================================================
-           BOTÓN BASE
-        ========================================================= */
+        /* =====================================================
+           BOTONES
+        ===================================================== */
 
         .boton {
 
@@ -182,11 +178,12 @@
 
             color: white;
 
-            font-size: clamp(
-                18px,
-                2.5vw,
-                30px
-            );
+            font-size:
+                clamp(
+                    18px,
+                    2.5vw,
+                    30px
+                );
 
             font-weight: bold;
 
@@ -220,10 +217,6 @@
         }
 
 
-        /* =========================================================
-           EFECTO AL PULSAR
-        ========================================================= */
-
         .boton:active:not(:disabled) {
 
             transform:
@@ -244,10 +237,6 @@
         }
 
 
-        /* =========================================================
-           BOTÓN BLOQUEADO
-        ========================================================= */
-
         .boton:disabled {
 
             opacity: 0.25;
@@ -259,9 +248,9 @@
         }
 
 
-        /* =========================================================
+        /* =====================================================
            COLORES
-        ========================================================= */
+        ===================================================== */
 
         .alarma {
 
@@ -270,17 +259,6 @@
                     to bottom,
                     #42a5f5,
                     #0d47a1
-                );
-        }
-
-
-        .finca {
-
-            background:
-                linear-gradient(
-                    to bottom,
-                    #66bb6a,
-                    #1b5e20
                 );
         }
 
@@ -307,9 +285,20 @@
         }
 
 
-        /* =========================================================
-           PANTALLA DE EMPAREJAMIENTO
-        ========================================================= */
+        .finca {
+
+            background:
+                linear-gradient(
+                    to bottom,
+                    #66bb6a,
+                    #1b5e20
+                );
+        }
+
+
+        /* =====================================================
+           EMPAREJAMIENTO
+        ===================================================== */
 
         #emparejamiento {
 
@@ -346,6 +335,7 @@
             text-align: center;
 
             box-shadow:
+
                 0 15px 35px
                 rgba(0, 0, 0, 0.50);
         }
@@ -400,6 +390,7 @@
             border-radius: 20px;
 
             background:
+
                 linear-gradient(
                     to bottom,
                     #42a5f5,
@@ -432,11 +423,12 @@
         }
 
 
-        /* =========================================================
-           VENTANA MUY BAJA / REDUCIDA DEL TESLA
-        ========================================================= */
+        /* =====================================================
+           VENTANA REDUCIDA TESLA
+        ===================================================== */
 
         @media (max-height: 500px) {
+
 
             .panel {
 
@@ -479,28 +471,26 @@
                 border-radius: 16px;
 
                 font-size:
+
                     clamp(
                         15px,
                         2vw,
                         23px
                     );
-
-                box-shadow:
-
-                    0 5px 9px
-                    rgba(0, 0, 0, 0.40),
-
-                    inset 0 1px 2px
-                    rgba(255, 255, 255, 0.18);
             }
         }
 
 
-        /* =========================================================
+        /* =====================================================
            PANTALLA GRANDE
-        ========================================================= */
+        ===================================================== */
 
-        @media (min-width: 1100px) and (min-height: 600px) {
+        @media (
+            min-width: 1100px
+        ) and (
+            min-height: 600px
+        ) {
+
 
             .panel {
 
@@ -535,19 +525,12 @@
                 border-radius: 28px;
 
                 font-size:
+
                     clamp(
                         24px,
                         2.4vw,
                         36px
                     );
-
-                box-shadow:
-
-                    0 14px 24px
-                    rgba(0, 0, 0, 0.45),
-
-                    inset 0 3px 2px
-                    rgba(255, 255, 255, 0.22);
             }
         }
 
@@ -560,13 +543,11 @@
 
 
 <!-- =============================================================
-     PANEL PRINCIPAL
+     INTERFAZ PRINCIPAL
 ============================================================= -->
 
 <div class="panel">
 
-
-    <!-- ESTADO -->
 
     <div class="cabecera">
 
@@ -577,17 +558,27 @@
     </div>
 
 
-    <!-- GPS -->
-
     <div id="gps">
+
         Esperando GPS...
+
     </div>
 
 
-    <!-- BOTONES -->
+    <!-- =========================================================
+         ORDEN DEFINITIVO:
+
+         ARRIBA IZQUIERDA  → ALARMA
+         ARRIBA DERECHA    → GARAJE
+
+         ABAJO IZQUIERDA   → PORTONES
+         ABAJO DERECHA     → FINCA
+    ========================================================== -->
 
     <div class="botones">
 
+
+        <!-- ARRIBA IZQUIERDA -->
 
         <button
             class="boton alarma"
@@ -605,21 +596,7 @@
         </button>
 
 
-        <button
-            class="boton finca"
-            disabled
-            onclick="
-                enviarOrden(
-                    '/porton-finca',
-                    'Portón finca'
-                )
-            "
-        >
-
-            PORTÓN FINCA
-
-        </button>
-
+        <!-- ARRIBA DERECHA -->
 
         <button
             class="boton garaje"
@@ -637,6 +614,8 @@
         </button>
 
 
+        <!-- ABAJO IZQUIERDA -->
+
         <button
             class="boton portones"
             disabled
@@ -653,6 +632,24 @@
         </button>
 
 
+        <!-- ABAJO DERECHA -->
+
+        <button
+            class="boton finca"
+            disabled
+            onclick="
+                enviarOrden(
+                    '/porton-finca',
+                    'Portón finca'
+                )
+            "
+        >
+
+            PORTÓN FINCA
+
+        </button>
+
+
     </div>
 
 </div>
@@ -660,7 +657,7 @@
 
 
 <!-- =============================================================
-     EMPAREJAMIENTO DEL TESLA
+     EMPAREJAMIENTO
 ============================================================= -->
 
 <div id="emparejamiento">
@@ -724,7 +721,7 @@
 
 
     // =============================================================
-    // WORKER DE CLOUDFLARE
+    // ÚNICO DATO PÚBLICO DEL BACKEND
     // =============================================================
 
     const worker =
@@ -734,39 +731,14 @@
 
 
     // =============================================================
-    // ZONA AUTORIZADA
-    // =============================================================
-
-    const HOME_LAT =
-        43.5581498;
-
-
-    const HOME_LON =
-        -5.9476139;
-
-
-    // Radio permitido alrededor de casa
-
-    const RADIO =
-        300;
-
-
-    // Precisión GPS máxima permitida
-
-    const PRECISION_MAX =
-        100;
-
-
-
-    // =============================================================
-    // VARIABLES DE ESTADO
+    // ESTADO
     // =============================================================
 
     let posicionActual =
         null;
 
 
-    let zonaValida =
+    let autorizado =
         false;
 
 
@@ -774,9 +746,13 @@
         false;
 
 
+    let comprobando =
+        false;
+
+
 
     // =============================================================
-    // CUANDO CARGA LA WEB
+    // CARGAR PÁGINA
     // =============================================================
 
     window.addEventListener(
@@ -792,8 +768,6 @@
                     "ingeniumTeslaToken"
                 );
 
-
-            // Si el Tesla todavía no está emparejado
 
             if (!token) {
 
@@ -815,7 +789,7 @@
 
 
     // =============================================================
-    // MOSTRAR EMPAREJAMIENTO
+    // EMPAREJAMIENTO
     // =============================================================
 
     function mostrarEmparejamiento() {
@@ -831,10 +805,6 @@
     }
 
 
-
-    // =============================================================
-    // EMPAREJAR TESLA
-    // =============================================================
 
     async function emparejar() {
 
@@ -937,9 +907,6 @@
             }
 
 
-            // Guardamos el token
-            // exclusivamente en el navegador Tesla
-
             localStorage.setItem(
 
                 "ingeniumTeslaToken",
@@ -968,7 +935,6 @@
 
 
                     iniciarGPS();
-
 
                 },
 
@@ -1005,7 +971,6 @@
         if (gpsIniciado) {
 
             return;
-
         }
 
 
@@ -1013,36 +978,35 @@
             true;
 
 
-        const estado =
+        if (!navigator.geolocation) {
+
 
             document
                 .getElementById(
                     "estado"
-                );
+                )
+                .innerText =
 
-
-        if (!navigator.geolocation) {
-
-
-            estado.innerText =
-
-                "GPS no disponible";
+                    "GPS no disponible";
 
 
             return;
-
         }
 
 
-        estado.innerText =
+        document
+            .getElementById(
+                "estado"
+            )
+            .innerText =
 
-            "Buscando GPS...";
+                "Buscando GPS...";
 
 
         navigator.geolocation.watchPosition(
 
 
-            actualizarPosicion,
+            nuevaPosicion,
 
 
             errorGPS,
@@ -1070,59 +1034,30 @@
 
 
     // =============================================================
-    // NUEVA POSICIÓN GPS
+    // NUEVA POSICIÓN
     // =============================================================
 
-    function actualizarPosicion(
+    function nuevaPosicion(
         posicion
     ) {
 
 
-        const lat =
-
-            posicion.coords.latitude;
-
-
-        const lon =
-
-            posicion.coords.longitude;
-
-
-        const accuracy =
-
-            posicion.coords.accuracy;
-
-
-        const distancia =
-
-            calcularDistancia(
-
-                lat,
-                lon,
-
-                HOME_LAT,
-                HOME_LON
-
-            );
-
-
         posicionActual = {
 
+
             lat:
-                lat,
+                posicion.coords.latitude,
+
 
             lon:
-                lon,
+                posicion.coords.longitude,
+
 
             accuracy:
-                accuracy
+                posicion.coords.accuracy
 
         };
 
-
-        // ---------------------------------------------------------
-        // MOSTRAR INFORMACIÓN
-        // ---------------------------------------------------------
 
         document
             .getElementById(
@@ -1130,30 +1065,264 @@
             )
             .innerText =
 
-                "Distancia " +
-                Math.round(distancia) +
-                " m   •   GPS ±" +
-                Math.round(accuracy) +
+                "GPS ±" +
+
+                Math.round(
+                    posicionActual.accuracy
+                ) +
+
                 " m";
 
 
-        // ---------------------------------------------------------
-        // COMPROBAR CONDICIONES
-        // ---------------------------------------------------------
+        comprobarAutorizacion();
 
-        zonaValida =
-
-            distancia <= RADIO
-
-            &&
-
-            accuracy <= PRECISION_MAX;
+    }
 
 
-        actualizarBotones();
+
+    // =============================================================
+    // COMPROBAR ZONA EN CLOUDFLARE
+    // =============================================================
+
+    async function comprobarAutorizacion() {
 
 
-        if (zonaValida) {
+        if (
+            !posicionActual ||
+            comprobando
+        ) {
+
+
+            return;
+        }
+
+
+        comprobando =
+            true;
+
+
+        const token =
+
+            localStorage.getItem(
+                "ingeniumTeslaToken"
+            );
+
+
+        if (!token) {
+
+
+            comprobando =
+                false;
+
+
+            mostrarEmparejamiento();
+
+
+            return;
+        }
+
+
+        try {
+
+
+            const respuesta =
+
+                await fetch(
+
+                    worker +
+                    "/check",
+
+                    {
+
+                        method:
+                            "POST",
+
+
+                        headers: {
+
+                            "Content-Type":
+                                "application/json",
+
+
+                            "Authorization":
+
+                                "Bearer " +
+                                token
+
+                        },
+
+
+                        body:
+
+                            JSON.stringify(
+                                posicionActual
+                            )
+
+                    }
+
+                );
+
+
+            const datos =
+
+                await respuesta.json();
+
+
+            // -----------------------------------------------------
+            // TOKEN NO VÁLIDO
+            // -----------------------------------------------------
+
+            if (
+                respuesta.status === 401
+            ) {
+
+
+                autorizado =
+                    false;
+
+
+                actualizarBotones();
+
+
+                localStorage.removeItem(
+                    "ingeniumTeslaToken"
+                );
+
+
+                document
+                    .getElementById(
+                        "estado"
+                    )
+                    .innerText =
+
+                        "Tesla no autorizado";
+
+
+                setTimeout(
+
+                    mostrarEmparejamiento,
+
+                    700
+
+                );
+
+
+                comprobando =
+                    false;
+
+
+                return;
+
+            }
+
+
+            // -----------------------------------------------------
+            // AUTORIZADO
+            // -----------------------------------------------------
+
+            if (
+                respuesta.ok &&
+                datos.autorizado
+            ) {
+
+
+                autorizado =
+                    true;
+
+
+                document
+                    .getElementById(
+                        "estado"
+                    )
+                    .innerText =
+
+                        "● AUTORIZADO";
+
+
+                document
+                    .getElementById(
+                        "gps"
+                    )
+                    .innerText =
+
+                        "Distancia " +
+
+                        datos.distancia +
+
+                        " m   •   GPS ±" +
+
+                        datos.precision +
+
+                        " m";
+
+
+            } else {
+
+
+                autorizado =
+                    false;
+
+
+                document
+                    .getElementById(
+                        "estado"
+                    )
+                    .innerText =
+
+                        "🔒 BLOQUEADO";
+
+
+                if (
+                    datos.distancia !== undefined
+                ) {
+
+
+                    document
+                        .getElementById(
+                            "gps"
+                        )
+                        .innerText =
+
+                            "Distancia " +
+
+                            datos.distancia +
+
+                            " m   •   GPS ±" +
+
+                            datos.precision +
+
+                            " m";
+
+
+                } else {
+
+
+                    document
+                        .getElementById(
+                            "gps"
+                        )
+                        .innerText =
+
+                            datos.error ||
+
+                            "GPS no autorizado";
+
+                }
+
+            }
+
+
+            actualizarBotones();
+
+
+        } catch (error) {
+
+
+            autorizado =
+                false;
+
+
+            actualizarBotones();
 
 
             document
@@ -1162,38 +1331,18 @@
                 )
                 .innerText =
 
-                    "● AUTORIZADO";
+                    "Error de conexión";
 
 
-        } else {
-
-
-            if (accuracy > PRECISION_MAX) {
-
-
-                document
-                    .getElementById(
-                        "estado"
-                    )
-                    .innerText =
-
-                        "GPS sin precisión";
-
-
-            } else {
-
-
-                document
-                    .getElementById(
-                        "estado"
-                    )
-                    .innerText =
-
-                        "🔒 FUERA DE ZONA";
-
-            }
+            console.error(
+                error
+            );
 
         }
+
+
+        comprobando =
+            false;
 
     }
 
@@ -1208,7 +1357,7 @@
     ) {
 
 
-        zonaValida =
+        autorizado =
             false;
 
 
@@ -1224,6 +1373,15 @@
                 "GPS no disponible";
 
 
+        document
+            .getElementById(
+                "gps"
+            )
+            .innerText =
+
+                "Sin posición GPS";
+
+
         console.log(
             error
         );
@@ -1233,7 +1391,7 @@
 
 
     // =============================================================
-    // ACTIVAR / BLOQUEAR BOTONES
+    // ACTIVAR / DESACTIVAR
     // =============================================================
 
     function actualizarBotones() {
@@ -1254,7 +1412,7 @@
 
                 boton.disabled =
 
-                    !zonaValida;
+                    !autorizado;
 
             }
 
@@ -1274,20 +1432,15 @@
     ) {
 
 
-        // Sin GPS válido no hacemos nada
-
         if (
-            !zonaValida ||
+            !autorizado ||
             !posicionActual
         ) {
 
 
             return;
-
         }
 
-
-        // Sonido inmediato
 
         reproducirSonido();
 
@@ -1299,16 +1452,20 @@
             );
 
 
-        // Sin token tampoco ejecutamos
-
         if (!token) {
+
+
+            autorizado =
+                false;
+
+
+            actualizarBotones();
 
 
             mostrarEmparejamiento();
 
 
             return;
-
         }
 
 
@@ -1358,22 +1515,7 @@
                         body:
 
                             JSON.stringify(
-
-                                {
-
-                                    lat:
-                                        posicionActual.lat,
-
-
-                                    lon:
-                                        posicionActual.lon,
-
-
-                                    accuracy:
-                                        posicionActual.accuracy
-
-                                }
-
+                                posicionActual
                             )
 
                     }
@@ -1384,6 +1526,42 @@
             const datos =
 
                 await respuesta.json();
+
+
+            if (
+                respuesta.status === 401
+            ) {
+
+
+                localStorage.removeItem(
+                    "ingeniumTeslaToken"
+                );
+
+
+                autorizado =
+                    false;
+
+
+                actualizarBotones();
+
+
+                estado.innerText =
+
+                    "Tesla no autorizado";
+
+
+                setTimeout(
+
+                    mostrarEmparejamiento,
+
+                    700
+
+                );
+
+
+                return;
+
+            }
 
 
             if (respuesta.ok) {
@@ -1398,35 +1576,11 @@
             } else {
 
 
-                // Token no válido / revocado
-
-                if (
-                    respuesta.status === 401
-                ) {
+                autorizado =
+                    false;
 
 
-                    localStorage.removeItem(
-                        "ingeniumTeslaToken"
-                    );
-
-
-                    estado.innerText =
-
-                        "Tesla no autorizado";
-
-
-                    setTimeout(
-
-                        mostrarEmparejamiento,
-
-                        700
-
-                    );
-
-
-                    return;
-
-                }
+                actualizarBotones();
 
 
                 estado.innerText =
@@ -1434,7 +1588,6 @@
                     datos.error ||
 
                     "Acceso bloqueado";
-
             }
 
 
@@ -1453,35 +1606,14 @@
         }
 
 
-        // ---------------------------------------------------------
-        // RECUPERAR ESTADO
-        // ---------------------------------------------------------
+        // Volvemos a comprobar la zona
+        // después de ejecutar.
 
         setTimeout(
 
-            function() {
+            comprobarAutorizacion,
 
-
-                if (zonaValida) {
-
-
-                    estado.innerText =
-
-                        "● AUTORIZADO";
-
-
-                } else {
-
-
-                    estado.innerText =
-
-                        "🔒 FUERA DE ZONA";
-
-                }
-
-            },
-
-            2500
+            2000
 
         );
 
@@ -1549,97 +1681,6 @@
             );
 
         }
-
-    }
-
-
-
-    // =============================================================
-    // CALCULAR DISTANCIA
-    // Fórmula de Haversine
-    // =============================================================
-
-    function calcularDistancia(
-
-        lat1,
-        lon1,
-
-        lat2,
-        lon2
-
-    ) {
-
-
-        const R =
-            6371000;
-
-
-        const rad =
-
-            grados =>
-
-                grados *
-                Math.PI /
-                180;
-
-
-        const dLat =
-
-            rad(
-                lat2 -
-                lat1
-            );
-
-
-        const dLon =
-
-            rad(
-                lon2 -
-                lon1
-            );
-
-
-        const a =
-
-            Math.sin(
-                dLat / 2
-            ) ** 2
-
-            +
-
-            Math.cos(
-                rad(lat1)
-            )
-
-            *
-
-            Math.cos(
-                rad(lat2)
-            )
-
-            *
-
-            Math.sin(
-                dLon / 2
-            ) ** 2;
-
-
-        const c =
-
-            2 *
-
-            Math.atan2(
-
-                Math.sqrt(a),
-
-                Math.sqrt(
-                    1 - a
-                )
-
-            );
-
-
-        return R * c;
 
     }
 
