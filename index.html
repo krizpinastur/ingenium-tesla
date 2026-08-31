@@ -65,7 +65,9 @@
             flex: 1;
 
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+
             gap: 22px;
         }
 
@@ -74,6 +76,7 @@
             border-radius: 30px;
 
             color: white;
+
             font-size: 32px;
             font-weight: bold;
 
@@ -93,6 +96,7 @@
         }
 
         .boton:active {
+
             transform: translateY(7px);
 
             box-shadow:
@@ -129,22 +133,28 @@
                 );
         }
 
-        iframe {
-            display: none;
+        .garaje {
+            background:
+                linear-gradient(
+                    to bottom,
+                    #ffb74d,
+                    #e65100
+                );
         }
 
         @media (max-width: 900px) {
 
+            body {
+                overflow: auto;
+            }
+
             .botones {
                 grid-template-columns: 1fr;
+                grid-template-rows: auto;
             }
 
             .boton {
                 min-height: 130px;
-            }
-
-            body {
-                overflow: auto;
             }
         }
 
@@ -175,57 +185,55 @@
 
         <button
             class="boton alarma"
-            onclick="enviarOrden('253,100,17', 'Alarma')"
+            onclick="enviarOrden('/alarma', 'Alarma')"
         >
-            Conectar
+            CONECTAR
             <br>
-            Alarma
+            ALARMA
         </button>
 
 
         <button
             class="boton finca"
-            onclick="enviarOrden('253,100,5', 'Portón finca')"
+            onclick="enviarOrden('/porton-finca', 'Portón finca')"
         >
-            Portón
+            PORTON
             <br>
-            finca
+            FINCA
         </button>
 
 
         <button
             class="boton portones"
-            onclick="enviarOrden('253,100,6', 'Portones')"
+            onclick="enviarOrden('/portones', 'Portones')"
         >
-            Portones
+            PORTONES
+        </button>
+
+
+        <button
+            class="boton garaje"
+            onclick="enviarOrden('/porton-garaje', 'Portón garaje')"
+        >
+            PORTON
+            <br>
+            GARAJE
         </button>
 
 
     </div>
-
-
-    <iframe
-        name="respuestaIngenium"
-        id="respuestaIngenium"
-    ></iframe>
 
 </div>
 
 
 <script>
 
-    const servidor =
-        "https://s2.ingeniumsl.com:8877";
-
-    const usuario =
-        "nubledo1";
-
-    const idEthbus =
-        "PPXF3P2";
+    const worker =
+        "https://ingenium-control.pablo-dosuarez.workers.dev";
 
 
-    function enviarOrden(
-        orden,
+    async function enviarOrden(
+        accion,
         nombre
     ) {
 
@@ -237,52 +245,36 @@
             "Enviando " + nombre + "...";
 
 
-        const url =
-            servidor +
-            "/api/send" +
-            "?u=" +
-            encodeURIComponent(usuario) +
-            "&i=" +
-            encodeURIComponent(idEthbus) +
-            "&p=" +
-            encodeURIComponent(orden);
+        try {
+
+            const respuesta =
+                await fetch(
+                    worker + accion,
+                    {
+                        method: "POST"
+                    }
+                );
 
 
-        const formulario =
-            document.createElement("form");
+            if (respuesta.ok) {
+
+                estado.innerText =
+                    nombre + " enviado";
+
+            } else {
+
+                estado.innerText =
+                    "Error " + respuesta.status;
+            }
 
 
-        formulario.method =
-            "POST";
+        } catch (error) {
 
+            estado.innerText =
+                "Error de conexión";
 
-        formulario.action =
-            url;
-
-
-        formulario.target =
-            "respuestaIngenium";
-
-
-        formulario.style.display =
-            "none";
-
-
-        document.body.appendChild(
-            formulario
-        );
-
-
-        formulario.submit();
-
-
-        document.body.removeChild(
-            formulario
-        );
-
-
-        estado.innerText =
-            nombre + " enviado";
+            console.error(error);
+        }
 
 
         setTimeout(
